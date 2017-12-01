@@ -27,12 +27,12 @@ namespace AdventofCode2017
                 Console.WriteLine( $"{kvp.Key}: {kvp.Value.PuzzleName}" );
             }
 
-            var rawInput = Console.ReadLine();
+            string rawInput = "";
             int selectedSolver = 1;
-            if( string.IsNullOrEmpty( rawInput ) || !int.TryParse( rawInput, out selectedSolver ) )
+            ISolver solver = null;
+            while( string.IsNullOrEmpty( (rawInput = Console.ReadLine()) ) || !int.TryParse( rawInput, out selectedSolver ) || !solverDict.TryGetValue( selectedSolver, out solver ) )
                 Console.WriteLine( "Unknown identifier for solver, try again" );
 
-            ISolver solver = solverDict[ selectedSolver ];
             Console.WriteLine( solver.Solve( File.ReadAllText( Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/" + solver.GetType().Name + ".input" ) ) );
             Console.ReadKey();
         }
