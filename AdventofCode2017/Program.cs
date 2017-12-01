@@ -20,21 +20,37 @@ namespace AdventofCode2017
                 solverDict.Add( i + 1, (ISolver) Activator.CreateInstance( availableSolvers[ i ] ) );
             }
 
-            Console.WriteLine( "Select puzzle to solve:" );
-            Console.WriteLine();
-            foreach( var kvp in solverDict )
+            var running = true;
+            while( running )
             {
-                Console.WriteLine( $"{kvp.Key}: {kvp.Value.PuzzleName}" );
+                Console.WriteLine( "Type q or quit to exit" );
+                Console.WriteLine( "Select puzzle to solve:" );
+                Console.WriteLine();
+                foreach( var kvp in solverDict )
+                {
+                    Console.WriteLine( $"{kvp.Key}: {kvp.Value.PuzzleName}" );
+                }
+
+                string rawInput = "";
+                int selectedSolver = 1;
+                ISolver solver = null;
+                while( string.IsNullOrEmpty( ( rawInput = Console.ReadLine() ) ) || !int.TryParse( rawInput, out selectedSolver ) || !solverDict.TryGetValue( selectedSolver, out solver ) )
+                {
+                    if( rawInput == "q" || rawInput == "quit" )
+                    {
+                        running = false;
+                        break;
+                    }
+                    else
+                        Console.WriteLine( "Unknown identifier for solver, try again" );
+                }
+
+                if( solver != null )
+                {
+                    Console.WriteLine( $"The solution for the '{ solver.PuzzleName }' puzzle is: '{ solver.Solve( File.ReadAllText( Path.GetDirectoryName( Assembly.GetEntryAssembly().Location ) + "/" + solver.GetType().Name + ".input" ) ) }'" );
+                    Console.WriteLine();
+                }
             }
-
-            string rawInput = "";
-            int selectedSolver = 1;
-            ISolver solver = null;
-            while( string.IsNullOrEmpty( (rawInput = Console.ReadLine()) ) || !int.TryParse( rawInput, out selectedSolver ) || !solverDict.TryGetValue( selectedSolver, out solver ) )
-                Console.WriteLine( "Unknown identifier for solver, try again" );
-
-            Console.WriteLine( $"The solution for the '{ solver.PuzzleName }' puzzle is: '{ solver.Solve( File.ReadAllText( Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/" + solver.GetType().Name + ".input" ) ) }'" );
-            Console.ReadKey();
         }
     }
 }
