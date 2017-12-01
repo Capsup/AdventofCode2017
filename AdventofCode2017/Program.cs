@@ -33,7 +33,7 @@ namespace AdventofCode2017
             while( string.IsNullOrEmpty( (rawInput = Console.ReadLine()) ) || !int.TryParse( rawInput, out selectedSolver ) || !solverDict.TryGetValue( selectedSolver, out solver ) )
                 Console.WriteLine( "Unknown identifier for solver, try again" );
 
-            Console.WriteLine( solver.Solve( File.ReadAllText( Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/" + solver.GetType().Name + ".input" ) ) );
+            Console.WriteLine( $"The solution for the '{ solver.PuzzleName }' puzzle is: '{ solver.Solve( File.ReadAllText( Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/" + solver.GetType().Name + ".input" ) ) }'" );
             Console.ReadKey();
         }
     }
