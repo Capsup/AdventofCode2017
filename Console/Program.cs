@@ -6,9 +6,9 @@ using System.Reflection;
 using Utils;
 using System.IO;
 
-namespace AdventofCode2017
+namespace Console
 {
-    class Program
+    public class Program
     {
         private static Dictionary<int, ISolver> solverDict = new Dictionary<int, ISolver>();
 
@@ -23,18 +23,18 @@ namespace AdventofCode2017
             var running = true;
             while( running )
             {
-                Console.WriteLine( "Type q or quit to exit" );
-                Console.WriteLine( "Select puzzle to solve:" );
-                Console.WriteLine();
+                System.Console.WriteLine( "Type q or quit to exit" );
+                System.Console.WriteLine( "Select puzzle to solve:" );
+                System.Console.WriteLine();
                 foreach( var kvp in solverDict )
                 {
-                    Console.WriteLine( $"{kvp.Key}: {kvp.Value.PuzzleName}" );
+                    System.Console.WriteLine( $"{kvp.Key}: {kvp.Value.PuzzleName}" );
                 }
 
                 string rawInput = "";
                 int selectedSolver = 1;
                 ISolver solver = null;
-                while( string.IsNullOrEmpty( ( rawInput = Console.ReadLine() ) ) || !int.TryParse( rawInput, out selectedSolver ) || !solverDict.TryGetValue( selectedSolver, out solver ) )
+                while( string.IsNullOrEmpty( ( rawInput = System.Console.ReadLine() ) ) || !int.TryParse( rawInput, out selectedSolver ) || !solverDict.TryGetValue( selectedSolver, out solver ) )
                 {
                     if( rawInput == "q" || rawInput == "quit" )
                     {
@@ -42,13 +42,13 @@ namespace AdventofCode2017
                         break;
                     }
                     else
-                        Console.WriteLine( "Unknown identifier for solver, try again" );
+                        System.Console.WriteLine( "Unknown identifier for solver, try again" );
                 }
 
                 if( solver != null )
                 {
-                    Console.WriteLine( $"The solution for the '{ solver.PuzzleName }' puzzle is: '{ solver.Solve( File.ReadAllText( Path.GetDirectoryName( Assembly.GetEntryAssembly().Location ) + "/" + solver.GetType().Name + ".input" ) ) }'" );
-                    Console.WriteLine();
+                    System.Console.WriteLine( $"The solution for the '{ solver.PuzzleName }' puzzle is: '{ solver.Solve( File.ReadAllText( Path.GetDirectoryName( Assembly.GetEntryAssembly().Location ) + "/" + solver.GetType().Name + ".input" ) ) }'" );
+                    System.Console.WriteLine();
                 }
             }
         }
